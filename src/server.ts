@@ -28,7 +28,7 @@ const buildServer = () => {
 
   app.register(cors, { origin: true });
 
-  app.get("/health", async () => ({ ok: true, service: "void-thing" }));
+  app.get("/health", async () => ({ ok: true, service: "agent-bridge-mcp" }));
 
   registerActionRoutes(app);
   registerRunRoutes(app);

@@ -1,6 +1,6 @@
-# Void Thing
+# Agent Bridge MCP
 
-AgentBridge-style control plane for coding agents.
+MCP-style control plane for coding agents.
 
 Connect cloud services once, then let any coding agent execute normalized actions safely across providers.
 
@@ -16,7 +16,7 @@ Building features is fast. Wiring infra across Supabase, Vercel, DNS, env vars, 
 - Idempotent runs
 - Auditable action history
 
-## The Pitch (Judge-Friendly)
+## Overview
 
 Most agent demos generate code. This one controls real delivery workflows.
 
@@ -59,7 +59,7 @@ This is the missing layer between coding agents and real-world deployment system
 
 ```mermaid
 flowchart LR
-  A["Coding Agent"] --> B["Void Thing API"]
+  A["Coding Agent"] --> B["Agent Bridge MCP API"]
   B --> C["Policy Engine"]
   C -->|"allow"| D["Orchestrator"]
   C -->|"require_approval"| E["Approval Queue"]
@@ -124,15 +124,13 @@ npm run build
 curl http://localhost:8787/health
 ```
 
-Expected: `{"ok":true,"service":"void-thing"}`
+Expected: `{"ok":true,"service":"agent-bridge-mcp"}`
 
-### 2) Show Connected Providers (seeded)
+### 2) List Connected Providers (seeded)
 
 ```bash
 curl http://localhost:8787/v1/projects/project-demo/connections
 ```
-
-Talk track: "This project already has provider bindings. Agents don’t need to rewire each provider manually."
 
 ### 3) Preview Deployment (No Human Needed)
 
@@ -149,8 +147,6 @@ curl -X POST http://localhost:8787/v1/actions/execute \
     "params":{"git_ref":"feature/launch"}
   }'
 ```
-
-Talk track: "Any agent can call one endpoint; provider-specific complexity is hidden behind adapters."
 
 ### 4) Risky Prod Action Triggers Approval
 
@@ -177,16 +173,12 @@ curl -X POST http://localhost:8787/v1/approvals/<approval-id>/respond \
   -d '{"decision":"approved","decided_by":"admin-1"}'
 ```
 
-Talk track: "Agents move fast, but production changes stay governed."
-
 ### 6) Show Auditability
 
 ```bash
 curl http://localhost:8787/v1/runs/<run-id>
 curl http://localhost:8787/v1/runs/<run-id>/steps
 ```
-
-Talk track: "Every action is reconstructable: who triggered it, what ran, and what rollback metadata exists."
 
 ## Request Schema (Canonical)
 
@@ -249,7 +241,7 @@ Not yet implemented:
 - Durable DB-backed runtime state
 - AuthN/AuthZ middleware for multi-tenant production
 
-## What To Say If Judges Ask “What’s Novel?”
+## Novelty
 
 1. It is agent-agnostic infrastructure, not tied to one coding model.
 2. It standardizes provider actions into one contract.
